@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rolodex</title>
+  </head>
+  <body>
+    <div>
+      <h1>Online Rolodex</h1>
+  
+      <div>
+          <h2>Contacts</h2>
+          <div id="contacts-container" class="my-3"></div>
+          <hr>
+          <div>
+              <!--NEW CONTACT FORM-->
+              <form>
+                  <h3>Add New Contact</h3>
+                  <label>Name</label>
+                  <textarea class="form-control" id="nametextarea"></textarea>
+                  <label>Phone Number</label>
+                  <textarea class="form-control" id="pntextarea"></textarea>
+                  <label>Email</label>
+                  <textarea class="form-control" id="emailtextarea"></textarea>
+                  <label>Address</label>
+                  <textarea class="form-control" id="addresstextarea"></textarea>
+                  <button type="submit" class="btn btn-success mt-3" onclick="onSaveContactClick(event)">Save</button>
+              </form>
+          </div>
+      </div>
+  </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
