@@ -1,9 +1,20 @@
+import "bootstrap/dist/css/bootstrap.min.css"
+import renderContactForm from "./renderContactform"
+
+type Contact = {
+  id: number
+  name: string
+  phonenumber: string
+  email: string
+  address: string
+}
+
 /**** STATE ****/
-let contactList = []
-let contactToEditId = null
+let contactList: contactList[] = []
+let contactToEditId: null | number = null
 
 /**** RENDERING & LISTENING ****/
-const contactsContainer = document.getElementById("contacts-container")
+const contactsContainer = document.getElementById("contacts-container")!
 const textarea = document.getElementById("textarea")
 
 /** Render a list of contacts */
@@ -21,7 +32,7 @@ function renderContactList() {
 }
 
 /**Render one contact*/
-function renderContact(contact) {
+function renderContact(contact: Contact) {
     const contactDiv = document.createElement("div")
     contactDiv.className = "bg-light mb-3 p-4"
     contactDiv.innerHTML = `
@@ -33,13 +44,13 @@ function renderContact(contact) {
         <button id="delete-button" class="btn btn-sm btn-outline-danger">Delete</button>
     `
     // Attach the event listener to the edit button that gets the form ready to edit
-    contactDiv.querySelector("#edit-button").addEventListener("click", () => {
+    contactDiv.querySelector("#edit-button")!.addEventListener("click", () => {
         console.log(`Editing contact with ID: ${contact.id}`)
         contactToEditId = contact.id
         renderContactForm(contact)
     })
     // Attach the event listener to the delete button that deletes the contact
-    contactDiv.querySelector("#delete-button").addEventListener("click", async () => {
+    contactDiv.querySelector("#delete-button")!.addEventListener("click", async () => {
         console.log(`Deleting contact with ID: ${contact.id}`);
         // Delete on the backend first
         await deleteContact(contact.id)
@@ -53,13 +64,6 @@ function renderContact(contact) {
 }
 /*
 
-/**Update the contact form to match the contact data given*/
-function renderContactForm(contactData) {
-    document.getElementById("nametextarea").value = contactData.name || '';
-    document.getElementById("pntextarea").value = contactData.phonenumber || '';
-    document.getElementById("emailtextarea").value = contactData.email || '';
-    document.getElementById("addresstextarea").value = contactData.address || '';
-}
 
 /*** When the save button is clicked, either save an edit or a create*/
 async function onSaveContactClick(event) {
