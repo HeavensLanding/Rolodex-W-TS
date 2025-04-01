@@ -16,6 +16,7 @@ let contactToEditId: null | number = null
 /**** RENDERING & LISTENING ****/
 const contactsContainer = document.getElementById("contacts-container")!
 const textarea = document.getElementById("textarea")
+document.getElementById("save-button")!.addEventListener("click", onSaveContactClick)
 
 /** Render a list of contacts */
 function renderContactList() {
@@ -66,16 +67,16 @@ function renderContact(contact: Contact) {
 
 
 /*** When the save button is clicked, either save an edit or a create*/
-async function onSaveContactClick(event) {
+async function onSaveContactClick(event: Event) {
     event.preventDefault()
     const nextId = contactList.length > 0 ? Math.max(...contactList.map(c => c.id)) + 1 : 1; // Assign the next available ID
 
     const contactData = {
         id: nextId.toString(), 
-        name: document.getElementById("nametextarea").value.trim(), 
-        phonenumber: document.getElementById("pntextarea").value.trim(), 
-        email: document.getElementById("emailtextarea").value.trim(), 
-        address: document.getElementById("addresstextarea").value.trim()
+        name: document.getElementById("nametextarea")!.value.trim(), 
+        phonenumber: document.getElementById("pntextarea")!.value.trim(), 
+        email: document.getElementById("emailtextarea")!.value.trim(), 
+        address: document.getElementById("addresstextarea")!.value.trim()
     }
 
     if(contactToEditId !== null) {
