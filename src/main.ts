@@ -1,4 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css"
+import { deleteContact, putContact, fetchAllContacts, postContact } from "./api"
 import renderContactForm from "./renderContactform"
 
 type Contact = {
@@ -70,18 +71,25 @@ function renderContact(contact: Contact) {
 async function onSaveContactClick(event: Event) {
     event.preventDefault()
     const nextId = contactList.length > 0 ? Math.max(...contactList.map(c => c.id)) + 1 : 1; // Assign the next available ID
-
+    const phonenumber = (document as Document).getElementById('pntextarea') as HTMLInputElement;
+    const name = (document as Document).getElementById("nametextarea") as HTMLInputElement;
+    const email = (document as Document).getElementById("emailtextarea") as HTMLInputElement;
+    const address = (document as Document).getElementById("addresstextarea") as HTMLInputElement;
+    
     const contactData = {
         id: nextId.toString(), 
-        name: document.getElementById("nametextarea")!.value.trim(), 
-        phonenumber: document.getElementById("pntextarea")!.value.trim(), 
-        email: document.getElementById("emailtextarea")!.value.trim(), 
-        address: document.getElementById("addresstextarea")!.value.trim()
+        name: name.value.trim(), 
+        phonenumber: phonenumber.value.trim(), 
+        email: email.value.trim(), 
+        address: address.value.trim()
     }
 
     if(contactToEditId !== null) {
         // Update on backend
-        contactData.id = contactToEditId
+        const contactToUpdate = {
+            ...contactData,
+            id: contactToEditId
+        }
         await putContact(contactData)
 
         // Update on frontend
@@ -98,38 +106,7 @@ async function onSaveContactClick(event: Event) {
     renderContactList()
     contactToEditId = null
     // Clear the form
-    renderContactForm({text: "" })
-}
-
-/**** FETCHING ****/
-
-async function fetchAllContacts() {
-    const response = await fetch("http://localhost:3000/contact")
-    return response.json()
-}
-
-async function postContact(newContactData) {
-    const response = await fetch("http://localhost:3000/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newContactData)
-    })
-    return response.json()
-}
-
-async function putContact(updatedContact) {
-    await fetch("http://localhost:3000/contact/" + updatedContact.id, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedContact)
-    })
-}
-
-async function deleteContact(id) {
-    console.log("Received request to delete contact with ID:", id);
-    await fetch(`http://localhost:3000/contact/${id}`, {
-        method: "DELETE"
-    })
+    renderContactForm({string: "" })
 }
 
 /**** START UP ****/
